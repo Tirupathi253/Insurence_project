@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using InsuranceApp.Data;
+using InsuranceApp.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System.Text;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InsuranceApp
 {
@@ -14,9 +19,10 @@ namespace InsuranceApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<InsuranceContext>(options =>
-                options.UseInMemoryDatabase("InsuranceDB"));
+            options.UseInMemoryDatabase("InsuranceDB"));
 
-            services.AddControllers();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -32,22 +38,37 @@ namespace InsuranceApp
                     };
                 });
 
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IPolicyRepository, PolicyRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IClaimRepository, ClaimRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IAgentRepository, AgentRepository>();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
-            app.UseRouting();
+            app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
+
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllers();
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
     }
 }

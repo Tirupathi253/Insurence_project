@@ -8,7 +8,7 @@ using InsuranceApp.Models;
 namespace InsuranceApp.Controllers
 {
     [ApiController]
-    [Route("api/home")]
+    [Route("api/controller")]
     public class HomeController : ControllerBase
     {
         [HttpGet]

@@ -1,0 +1,25 @@
+﻿@model InsuranceApp.Models.ClaimModel
+@{
+    ViewData["Title"] = "Submit Insurance Claim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Submit Claim</h2>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+<form method="post">
+    <div class="mb-3">
+        <label>Customer ID</label>
+        <input type="number" name="CustomerId" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Policy ID</label>
+        <input type="number" name="PolicyId" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Reason for Claim</label>
+        <textarea name="Reason" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-danger">Submit Claim</button>
+</form>

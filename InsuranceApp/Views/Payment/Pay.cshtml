@@ -1,0 +1,25 @@
+﻿@model InsuranceApp.Models.Payment
+@{
+    ViewData["Title"] = "Make Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Make a Payment</h2>
+<form method="post" action="/Payment/Pay">
+    <div class="mb-3">
+        <label>Policy ID</label>
+        <input type="number" name="PolicyId" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Amount</label>
+        <input type="number" name="Amount" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Payment Mode</label>
+        <select name="PaymentMode" class="form-control">
+            <option>UPI</option>
+            <option>Credit Card</option>
+            <option>Debit Card</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Pay</button>
+</form>

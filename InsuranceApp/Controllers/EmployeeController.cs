@@ -9,30 +9,12 @@ using System.Threading.Tasks;
 namespace InsuranceApp.Controllers
 {
 
-    [ApiController]
-    [Route("api/employees")]
-    public class EmployeeController : ControllerBase
+    [Route("[controller]")]
+    public class EmployeeController : Controller
     {
-        private readonly IEmployeeRepository _repository;
-        public EmployeeController(IEmployeeRepository repository) { _repository = repository; }
-
-        
-        [HttpPost("login")]
-        public ActionResult<Employee> Login([FromBody] Employee employee)
+        public IActionResult Dashboard()
         {
-            if (employee == null || string.IsNullOrEmpty(employee.Email) || string.IsNullOrEmpty(employee.Password))
-            {
-                return BadRequest("Invalid request data");
-            }
-
-            var user = _repository.GetByEmailAndPassword(employee.Email, employee.Password);
-            if (user == null)
-            {
-                return Unauthorized(); // Correct method usage
-            }
-
-            return Ok(user);
+            return View();
         }
-
     }
 }

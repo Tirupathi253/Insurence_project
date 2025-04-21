@@ -8,9 +8,9 @@ namespace InsuranceApp.Models
     public class InsuranceClaim
     {
         public int Id { get; set; }
-        public string ClaimType { get; set; }
-        public decimal ClaimAmount { get; set; }
         public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public int PolicyId { get; set; }
+        public string Reason { get; set; }
+        public string Status { get; set; }
     }
 }

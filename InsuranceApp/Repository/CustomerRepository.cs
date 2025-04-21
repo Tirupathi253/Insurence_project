@@ -1,5 +1,4 @@
-﻿using InsuranceApp.Data;
-using InsuranceApp.Models;
+﻿using InsuranceApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

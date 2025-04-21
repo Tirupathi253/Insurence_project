@@ -7,11 +7,9 @@ using InsuranceApp.Models;
 
 namespace InsuranceApp.Controllers
 {
-    [ApiController]
-    [Route("api/controller")]
-    public class HomeController : ControllerBase
+    [Route("")]
+    public class HomeController : Controller
     {
-        [HttpGet]
-        public IActionResult Get() => Ok("Welcome to the Insurance API");
+        public IActionResult Index() => View();
     }
 }

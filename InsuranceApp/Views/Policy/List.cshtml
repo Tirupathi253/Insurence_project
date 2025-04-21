@@ -1,0 +1,25 @@
+﻿@model IEnumerable<InsuranceApp.Models.Policy>
+@{
+    ViewData["Title"] = "Available Policies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Available Policies</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Premium</th>
+            <th>Term (Years)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var policy in Model)
+        {
+            <tr>
+                <td>@policy.PolicyName</td>
+                <td>@policy.Premium</td>
+                <td>@policy.TermYears</td>
+            </tr>
+        }
+    </tbody>
+</table>

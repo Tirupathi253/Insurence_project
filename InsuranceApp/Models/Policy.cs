@@ -9,7 +9,8 @@ namespace InsuranceApp.Models
     {
         public int Id { get; set; }
         public string PolicyName { get; set; }
-        public decimal PremiumAmount { get; set; }
+        public decimal Premium { get; set; }
+        public int TermYears { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
     }

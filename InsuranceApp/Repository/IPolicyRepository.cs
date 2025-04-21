@@ -8,6 +8,10 @@ namespace InsuranceApp.Repository
 {
     public interface IPolicyRepository
     {
-        IEnumerable<Policy> GetByCustomerId(int customerId);
+        IEnumerable<Policy> GetAllPolicies();
+        Policy GetPolicyById(int id);
+        void AddPolicy(Policy policy);
+        void UpdatePolicy(Policy policy);
+        void DeletePolicy(int id);
     }
 }

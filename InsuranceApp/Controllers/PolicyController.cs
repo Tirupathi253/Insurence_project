@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 
 namespace InsuranceApp.Controllers
 {
-    [ApiController]
-    [Route("api/policies")]
-    public class PolicyController : ControllerBase
+    [Route("[controller]")]
+    public class PolicyController : Controller
     {
-        private readonly IPolicyRepository _repository;
-        public PolicyController(IPolicyRepository repository) { _repository = repository; }
+        private readonly IPolicyRepository _repo;
+        public PolicyController(IPolicyRepository repo)
+        {
+            _repo = repo;
+        }
 
-        [HttpGet("{customerId}")]
-        public IActionResult GetByCustomerId(int customerId) => Ok(_repository.GetByCustomerId(customerId));
+        public IActionResult List()
+        {
+            var policies = _repo.GetAllPolicies();
+            return View(policies);
+        }
     }
 }

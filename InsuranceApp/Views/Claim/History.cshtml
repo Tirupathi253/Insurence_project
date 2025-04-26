@@ -1,0 +1,26 @@
+﻿@using InsuranceApp.Models
+@model IEnumerable<InsuranceClaim>
+@{
+    ViewData["Title"] = "Claim History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Your Claim History</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Policy ID</th>
+            <th>Reason</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.PolicyId</td>
+                <td>@c.Reason</td>
+                <td>@c.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>

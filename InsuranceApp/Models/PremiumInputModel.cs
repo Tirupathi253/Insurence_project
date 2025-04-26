@@ -2,8 +2,11 @@
 {
     public class PremiumInputModel
     {
-        public decimal SumAssured { get; set; }
+        public string PolicyType { get; set; }
         public int Age { get; set; }
-        public int TermYears { get; set; }
+        public decimal CoverageAmount { get; set; }
+        public int TenureYears { get; set; }
+        public decimal EstimatedPremium { get; set; }
     }
+
 }

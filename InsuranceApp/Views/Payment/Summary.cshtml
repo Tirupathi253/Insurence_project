@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Payment Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Payment Summary</h2>
+
+@if (TempData["Summary"] != null)
+{
+    <div class="alert alert-success">@TempData["Summary"]</div>
+}
+
+<a href="/Payment/DownloadReceipt?paymentId=1" class="btn btn-outline-primary mt-3">
+    <i class="bi bi-file-earmark-pdf-fill"></i> Download Receipt
+</a>

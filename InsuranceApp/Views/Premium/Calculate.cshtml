@@ -1,0 +1,37 @@
+﻿@model InsuranceApp.Models.PremiumInputModel
+@{
+    ViewData["Title"] = "Premium Calculator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Premium Calculator</h2>
+
+<form method="post" asp-controller="Premium" asp-action="Calculate">
+    <div class="mb-3">
+        <label>Policy Type</label>
+        <select name="PolicyType" class="form-select" required>
+            <option value="">-- Select --</option>
+            <option value="Life" selected="@(Model.PolicyType == "Life")">Life</option>
+            <option value="Health" selected="@(Model.PolicyType == "Health")">Health</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Age</label>
+        <input type="number" name="Age" class="form-control" value="@Model.Age" required />
+    </div>
+    <div class="mb-3">
+        <label>Coverage Amount (₹)</label>
+        <input type="number" name="CoverageAmount" class="form-control" value="@Model.CoverageAmount" required />
+    </div>
+    <div class="mb-3">
+        <label>Tenure (Years)</label>
+        <input type="number" name="TenureYears" class="form-control" value="@Model.TenureYears" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Estimate Premium</button>
+</form>
+
+@if (Model.EstimatedPremium > 0)
+{
+    <div class="alert alert-success mt-4">
+        <strong>Estimated Premium:</strong> ₹@Model.EstimatedPremium
+    </div>
+}

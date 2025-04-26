@@ -2,38 +2,79 @@
 using InsuranceApp.Repository;
 using InsuranceApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using System.IO;
+using System.Xml.Linq;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 
 namespace InsuranceApp.Controllers
 {
     [Route("[controller]")]
     public class PaymentController : Controller
     {
-        private readonly IPaymentRepository _repo;
+        private readonly InsuranceContext _context;
         private readonly EmailService _email;
 
-        // Constructor
-        public PaymentController(IPaymentRepository repo, EmailService email)
+        public PaymentController(InsuranceContext context, EmailService email)
         {
-            _repo = repo;
+            _context = context;
             _email = email;
         }
 
-        // Post method to process payment
         [HttpPost("Pay")]
-        public async Task<IActionResult> Pay(Payment model)
+        public IActionResult Pay(Payment model)
         {
-            // Call the ProcessPayment method and await the result
-            var success = await _repo.ProcessPayment(model.CustomerId, model.PolicyId, model.Amount);
+            model.PaymentDate = DateTime.Now;
+            _context.Payments.Add(model);
+            _context.SaveChanges();
 
-            if (success)
+            var customer = _context.Customers.FirstOrDefault(c => c.Id == model.CustomerId);
+            if (customer != null)
             {
-                // Send confirmation email if payment was successful
-                _email.SendConfirmation("customer@example.com", "Payment Success", "Your payment has been processed.");
+                string toEmail = "tirupathij123@gmail.com"; // or customer.Email
+                string subject = "Payment Confirmation - Insurance App";
+                string message = $"Dear {customer.FullName},<br/><br/>Your payment of ₹{model.Amount} for policy #{model.PolicyId} has been successfully received.<br/><br/>Thank you,<br/>Insurance App";
+                _email.SendEmail(toEmail, subject, message);
             }
 
-            // Redirect to the Dashboard if payment was successful
-            return RedirectToAction("Dashboard", "Customer");
+            TempData["Summary"] = $"You paid ₹{model.Amount} for Policy #{model.PolicyId}.";
+            return RedirectToAction("Summary");
+        }
+
+        [HttpGet("Summary")]
+        public IActionResult Summary()
+        {
+            return View();
+        }
+
+        [HttpGet("DownloadReceipt")]
+        public IActionResult DownloadReceipt(int paymentId)
+        {
+            var payment = _context.Payments.FirstOrDefault(p => p.Id == paymentId);
+            if (payment == null) return NotFound();
+
+            var file = GeneratePdfReceipt(payment);
+            return File(file, "application/pdf", "Receipt.pdf");
+        }
+
+        private byte[] GeneratePdfReceipt(Payment payment)
+        {
+            var doc = new PdfDocument();
+            var page = doc.AddPage();
+            var gfx = XGraphics.FromPdfPage(page);
+
+            gfx.DrawString("Payment Receipt", new XFont("Arial", 20), XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopCenter);
+            gfx.DrawString($"Customer ID: {payment.CustomerId}", new XFont("Arial", 12), XBrushes.Black, new XPoint(50, 100));
+            gfx.DrawString($"Amount: ₹{payment.Amount}", new XFont("Arial", 12), XBrushes.Black, new XPoint(50, 130));
+            gfx.DrawString($"Date: {payment.PaymentDate}", new XFont("Arial", 12), XBrushes.Black, new XPoint(50, 160));
+
+            using var stream = new MemoryStream();
+            doc.Save(stream, false);
+            return stream.ToArray();
         }
     }
 }

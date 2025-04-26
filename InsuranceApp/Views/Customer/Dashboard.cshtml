@@ -3,30 +3,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Welcome to Your Customer Dashboard</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Welcome to Your Customer Dashboard</h2>
 
-<div class="row">
-    <div class="col-md-4">
-        <div class="card bg-info text-white mb-3">
-            <div class="card-body">
-                <h5 class="card-title"><i class="bi bi-card-list"></i> View Policies</h5>
-                <p class="card-text">Check your active policies and coverage details.</p>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card bg-info text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-card-list"></i> Policies</h5>
+                    <h2>@ViewBag.TotalPolicies</h2>
+                    <p class="card-text">Active Policies</p>
+                    <a href="/Policy/List" class="btn btn-light btn-sm">View Policies</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-success text-white mb-3">
-            <div class="card-body">
-                <h5 class="card-title"><i class="bi bi-credit-card"></i> Make Payment</h5>
-                <p class="card-text">Pay your premium online securely.</p>
+
+        <div class="col-md-4">
+            <div class="card bg-success text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-credit-card"></i> Payments</h5>
+                    <h2>@ViewBag.TotalPayments</h2>
+                    <p class="card-text">Completed Payments</p>
+                    <a href="/Payment/Pay" class="btn btn-light btn-sm">Make Payment</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-warning text-white mb-3">
-            <div class="card-body">
-                <h5 class="card-title"><i class="bi bi-file-earmark"></i> Submit Claim</h5>
-                <p class="card-text">Easily submit a claim for processing.</p>
+
+        <div class="col-md-4">
+            <div class="card bg-warning text-white mb-3">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="bi bi-file-earmark"></i> Claims</h5>
+                    <h2>@ViewBag.TotalClaims</h2>
+                    <p class="card-text">Submitted Claims</p>
+                    <a href="/Claim/Submit" class="btn btn-light btn-sm">Submit Claim</a>
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,44 @@
+﻿@using InsuranceApp.Models
+@model IEnumerable<InsuranceClaim>
+@{
+    ViewData["Title"] = "Manage Claims";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Claims Management</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Policy</th>
+            <th>Customer</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Id</td>
+                <td>@c.PolicyId</td>
+                <td>@c.CustomerId</td>
+                <td>@c.Reason</td>
+                <td>@c.Status</td>
+                <td>
+                    <form asp-controller="Employee" asp-action="UpdateStatus" method="post" class="d-flex gap-1">
+                        <input type="hidden" name="id" value="@c.Id" />
+                        <select name="status" class="form-select form-select-sm">
+                            <option value="Pending" selected="@("Pending" == c.Status)">Pending</option>
+                            <option value="Approved" selected="@("Approved" == c.Status)">Approved</option>
+                            <option value="Rejected" selected="@("Rejected" == c.Status)">Rejected</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-success">Update</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

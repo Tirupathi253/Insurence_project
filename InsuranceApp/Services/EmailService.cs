@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace InsuranceApp.Services
 {
-   
+
     public class EmailService
     {
         private readonly IConfiguration _config;
@@ -14,22 +14,27 @@ namespace InsuranceApp.Services
             _config = config;
         }
 
-        public void SendConfirmation(string toEmail, string subject, string body)
+        public void SendEmail(string toEmail, string subject, string body)
         {
-            var fromEmail = _config["EmailSettings:From"];
-            var smtpHost = _config["EmailSettings:Smtp"];
-            var smtpPort = int.Parse(_config["EmailSettings:Port"]);
-            var smtpUser = _config["EmailSettings:Username"];
-            var smtpPass = _config["EmailSettings:Password"];
-
-            var message = new MailMessage(fromEmail, toEmail, subject, body);
-
-            using var client = new SmtpClient(smtpHost, smtpPort)
+            var smtpClient = new SmtpClient(_config["EmailSettings:SmtpServer"])
             {
-                Credentials = new NetworkCredential(smtpUser, smtpPass),
+                Port = int.Parse(_config["EmailSettings:SmtpPort"]),
+                Credentials = new NetworkCredential(
+                    _config["EmailSettings:SenderEmail"],
+                    _config["EmailSettings:SenderPassword"]),
                 EnableSsl = true
             };
-            client.Send(message);
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(_config["EmailSettings:SenderEmail"]),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
+
+            mailMessage.To.Add(toEmail);
+            smtpClient.Send(mailMessage);
         }
     }
 }

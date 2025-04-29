@@ -17,6 +17,12 @@ namespace InsuranceApp.Controllers
         public IActionResult Calculate(PremiumInputModel model)
         {
             model.EstimatedPremium = CalculatePremium(model);
+            return RedirectToAction("Result", model);
+        }
+
+        [HttpGet("Result")]
+        public IActionResult Result(PremiumInputModel model)
+        {
             return View(model);
         }
 

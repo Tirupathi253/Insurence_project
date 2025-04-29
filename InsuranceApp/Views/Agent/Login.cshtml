@@ -1,0 +1,18 @@
+﻿@model InsuranceApp.Models.LoginModel
+@{
+    ViewData["Title"] = "Agent Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Agent Login</h2>
+
+<form method="post" action="/Agent/Login">
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="Email" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label>Password</label>
+        <input type="password" name="Password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

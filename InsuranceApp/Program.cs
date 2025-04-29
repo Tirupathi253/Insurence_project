@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using InsuranceApp.Repository;
 using Microsoft.Extensions.Configuration;
 using InsuranceApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,12 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "InsuranceApp API", Version = "v1" });
 });
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Employee/Login"; // Default fallback login
+        options.AccessDeniedPath = "/Employee/Login";
+    });
 
 var app = builder.Build();
 

@@ -1,37 +1,30 @@
-﻿@model InsuranceApp.Models.PremiumInputModel
+﻿@using InsuranceApp.Models
+@model PremiumInputModel
 @{
-    ViewData["Title"] = "Premium Calculator";
+    ViewData["Title"] = "Calculate Premium";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Premium Calculator</h2>
-
-<form method="post" asp-controller="Premium" asp-action="Calculate">
+<h2>Calculate Your Premium</h2>
+<form asp-action="Calculate" method="post">
     <div class="mb-3">
         <label>Policy Type</label>
-        <select name="PolicyType" class="form-select" required>
-            <option value="">-- Select --</option>
-            <option value="Life" selected="@(Model.PolicyType == "Life")">Life</option>
-            <option value="Health" selected="@(Model.PolicyType == "Health")">Health</option>
+        <select name="PolicyType" class="form-control">
+            <option>Life</option>
+            <option>Health</option>
+            <option>General</option>
         </select>
     </div>
     <div class="mb-3">
         <label>Age</label>
-        <input type="number" name="Age" class="form-control" value="@Model.Age" required />
+        <input type="number" name="Age" class="form-control" required />
     </div>
     <div class="mb-3">
         <label>Coverage Amount (₹)</label>
-        <input type="number" name="CoverageAmount" class="form-control" value="@Model.CoverageAmount" required />
+        <input type="number" name="CoverageAmount" class="form-control" required />
     </div>
     <div class="mb-3">
         <label>Tenure (Years)</label>
-        <input type="number" name="TenureYears" class="form-control" value="@Model.TenureYears" required />
+        <input type="number" name="TenureYears" class="form-control" required />
     </div>
-    <button type="submit" class="btn btn-primary">Estimate Premium</button>
+    <button type="submit" class="btn btn-primary">Calculate Premium</button>
 </form>
-
-@if (Model.EstimatedPremium > 0)
-{
-    <div class="alert alert-success mt-4">
-        <strong>Estimated Premium:</strong> ₹@Model.EstimatedPremium
-    </div>
-}

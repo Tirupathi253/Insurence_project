@@ -1,0 +1,11 @@
+﻿@using InsuranceApp.Models
+@model PremiumInputModel
+@{
+    ViewData["Title"] = "Premium Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Premium Result</h2>
+<div class="alert alert-success">
+    <strong>Estimated Premium:</strong> ₹@Model.EstimatedPremium
+</div>
+<a class="btn btn-secondary" href="/Premium/Calculate">Recalculate</a>
